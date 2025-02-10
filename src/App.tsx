@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { flagService } from './services/flag-service'
 import reactLogo from './assets/react.svg'
@@ -9,13 +9,17 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [flags, setFlags] = useState(null);
 
-  const { data: flags } = useQuery({
-    queryKey: ['flags'],
-    queryFn: () => flagService.getFlags(),
-  })
+  useEffect(() => {
+    flagService.getFlags()
+      .then((data) => setFlags(data))
+      .catch((err) => console.error(err));
+  }, []);
 
-  console.log('----', flags);
+  if (!flags) return <p>Loading...</p>;
+
+
   return (
     <>
       <div>
@@ -27,6 +31,10 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
+      <div>
+        <h2>Flags</h2>
+        <pre>{JSON.stringify(flags, null, 2)}</pre>
+      </div>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
