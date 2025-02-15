@@ -7,16 +7,20 @@ const Header: React.FC = () => {
 
   return (
     <header style={{ background: "#ccc", padding: "10px" }}>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/about">About</Link> | <Link to="/contact">Contact</Link>
+      <nav style={{ display: "flex", gap: "10px" }}>
+        <Link to="/">Home</Link> |
+        <Link to="/about">About</Link> |
+        <Link to="/contact">Contact</Link>
+        <div style={{ marginLeft: "auto" }}>
         {user ? (
           <>
-            <span> | {user} </span>
+            <span> {user} </span>
             <button onClick={logout}>Logout</button>
           </>
         ) : (
           <Link to="/login">Login</Link>
         )}
+        </div>
       </nav>
     </header>
   );
